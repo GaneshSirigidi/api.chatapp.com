@@ -22,34 +22,12 @@ const AWS = {
     s3_base_url: process.env.S3_BASE_URL,
     pre_signed_url_expires: 3600, // sec
 };
-// load different jwt secrets based on the NODE_ENV value passed during the npm command
-const env = process.env.NODE_ENV;
-var JWTData = null;
-switch (env) {
-    case "dev":
-        JWTData = {
-            token_secret: "DRXqa9r4UsjO5F0wMybN2BdTiKGmzAoLs82jjj#wsjld",
-            token_life: 7890000,
-            refresh_token_secret: "wXyjKsdjlj#12ZpuoDsmg1MLP8CaHkfO2bUhrF6W",
-            refresh_token_life: 15780000, // 6 months
-        };
-        break;
-    case "prod":
-        JWTData = {
-            token_secret: "DRXqa9r4UsjO5F0wMybN2BdTiKGmzAoLs82jjj#wsjld",
-            token_life: 7890000,
-            refresh_token_secret: "wXyjKsdjlj#12ZpuoDsmg1MLP8CaHkfO2bUhrF6W",
-            refresh_token_life: 15780000, // 6 months
-        };
-    case "staging":
-        JWTData = {
-            token_secret: "DRXqa9r4UsjO5F0wMybN2BdTiKGmzAoLs82jjj#wsjld",
-            token_life: 7890000,
-            refresh_token_secret: "wXyjKsdjlj#12ZpuoDsmg1MLP8CaHkfO2bUhrF6W",
-            refresh_token_life: 15780000, // 6 months
-        };
-        break;
-}
+var JWTData = {
+    token_secret: process.env.TOKEN_SECRET,
+    token_life: parseInt(process.env.TOKEN_LIFE, 10),
+    refresh_token_secret: process.env.REFRESH_TOKEN_SECRET,
+    refresh_token_life: parseInt(process.env.TOKEN_LIFE, 10), // 6 months
+};
 const configData = {
     app: appData,
     db: DB,

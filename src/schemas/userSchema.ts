@@ -14,6 +14,10 @@ const userSchema = new Schema({
         required: true,
         minlength:6
     },
+    email: {
+        type: String,
+        required: true,
+    },
     gender: {
         type: String,
         required: true,

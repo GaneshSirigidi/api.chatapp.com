@@ -8,7 +8,7 @@ export class UserDataService{
         userData.password = await bcrypt.hash(userData.password, saltRounds);
         return await UserModel.create(userData)
     }
-    async findOne(username:string) {
-        return await UserModel.findOne({username:username})
+    async findOne(email:string) {
+        return await UserModel.findOne({email:email})
     }
 }

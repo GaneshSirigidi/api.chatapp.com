@@ -23,9 +23,9 @@ class UserDataService {
             return yield userSchema_1.UserModel.create(userData);
         });
     }
-    findOne(username) {
+    findOne(email) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield userSchema_1.UserModel.findOne({ username: username });
+            return yield userSchema_1.UserModel.findOne({ email: email });
         });
     }
 }
