@@ -33,9 +33,9 @@ class UserDataService {
             return yield userSchema_1.UserModel.findById(id);
         });
     }
-    getUsers() {
+    getUsers(loginUserId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield userSchema_1.UserModel.find({});
+            return yield userSchema_1.UserModel.find({ _id: { $ne: loginUserId } });
         });
     }
 }

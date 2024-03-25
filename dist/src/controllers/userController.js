@@ -70,7 +70,8 @@ class UserController {
     listUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const users = yield userDataService.getUsers();
+                const loginUserId = req.user.id;
+                const users = yield userDataService.getUsers(loginUserId);
                 return responseHelper.sendSuccessReponse(res, 200, "Users fetched successfully!", users);
             }
             catch (err) {

@@ -15,7 +15,7 @@ export class UserDataService{
         return await UserModel.findById(id);
     }
 
-    async getUsers() {
-        return await UserModel.find({})
+    async getUsers(loginUserId) {
+        return await UserModel.find({_id:{$ne:loginUserId}})
     }
 }

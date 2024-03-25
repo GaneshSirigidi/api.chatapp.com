@@ -68,8 +68,10 @@ export class UserController {
 
     public async listUsers(req:Request,res:Response) {
         try {
-
-            const users = await userDataService.getUsers();
+          
+            const loginUserId = req.user.id;
+            
+            const users = await userDataService.getUsers(loginUserId);
             return responseHelper.sendSuccessReponse(res,200,"Users fetched successfully!",users)
             
         } catch (err) {
