@@ -12,6 +12,6 @@ export class ConversationDataService{
     }
     async getOneWithPopulate(senderId,recieverId) {
         return (await ConversationModel.findOne({ participants: { $all: [senderId, recieverId] } }))
-            .populate({ path: "messages", select:'message'})
+            .populate({ path: "messages"})
   }
 }

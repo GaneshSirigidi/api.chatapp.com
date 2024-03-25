@@ -46,8 +46,11 @@ export class MessageController {
             const senderId = req.user.id;
 
             const conversation = await conversationDataService.getOneWithPopulate(senderId, userToChatId);
+            if (!conversation) {
+                return responseHelper.sendSuccessReponse(res, 200, 'Messages fetched successfully!',[])
+            }
 
-            return responseHelper.sendSuccessReponse(res, 201, 'Messages fetched successfully!',conversation)
+            return responseHelper.sendSuccessReponse(res, 200, 'Messages fetched successfully!',conversation.messages)
 
 
         } catch (err) {
