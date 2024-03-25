@@ -15,7 +15,7 @@ export class AuthMiddleware {
         try {
             const accessToken = req.headers.authorization || req.body.authorization;
             if (!accessToken) {
-                throw new CustomError(401, "Unothorized - No Token Provided", "INVALID_ACCESS");
+                return responseHelper.sendErrorReponse(res,401,"Unauthorized - No Token Provided")
               }
             // Decode JWT received via Header
             const userDetails = jwt.decode(accessToken);
@@ -23,7 +23,7 @@ export class AuthMiddleware {
             // Fetch User From DB
             const user: any = await userDataService.userById(userDetails.id);
             if (!user) {
-                throw new CustomError(401, "Invalid Access Token", "INVALID_ACCESS");
+                return responseHelper.sendErrorReponse(res,401,"Unauthorized - Invalid Access Token")
               }
 
             const tokenSecret = configData.jwt.token_secret + user.password;
