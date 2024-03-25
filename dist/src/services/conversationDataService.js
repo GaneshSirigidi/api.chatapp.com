@@ -22,6 +22,12 @@ class ConversationDataService {
             return yield conversationSchema_1.ConversationModel.create(conversationData);
         });
     }
+    getOneWithPopulate(senderId, recieverId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return (yield conversationSchema_1.ConversationModel.findOne({ participants: { $all: [senderId, recieverId] } }))
+                .populate({ path: "messages" });
+        });
+    }
 }
 exports.ConversationDataService = ConversationDataService;
 //# sourceMappingURL=conversationDataService.js.map

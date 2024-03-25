@@ -14,4 +14,8 @@ export class UserDataService{
     async userById(id:string) {
         return await UserModel.findById(id);
     }
+
+    async getUsers() {
+        return await UserModel.find({})
+    }
 }

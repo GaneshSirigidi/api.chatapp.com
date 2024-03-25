@@ -20,7 +20,7 @@ const appHelper_1 = require("../helpers/appHelper");
 const userDataService = new userDataService_1.UserDataService();
 const responseHelper = new responseHelper_1.ResponseHelper();
 class UserController {
-    signUp(req, res, next) {
+    signUp(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const userData = req.body;
@@ -40,7 +40,7 @@ class UserController {
             }
         });
     }
-    signIn(req, res, next) {
+    signIn(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const userData = req.body;
@@ -60,6 +60,18 @@ class UserController {
                     refresh_token: refreshToken
                 };
                 return responseHelper.sendSuccessReponse(res, 200, "User signin successfully!", responseData);
+            }
+            catch (err) {
+                console.log(err);
+                return responseHelper.sendErrorReponse(res, 500, err.message || "Internal Server Error!", err.errors);
+            }
+        });
+    }
+    listUsers(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const users = yield userDataService.getUsers();
+                return responseHelper.sendSuccessReponse(res, 200, "Users fetched successfully!", users);
             }
             catch (err) {
                 console.log(err);

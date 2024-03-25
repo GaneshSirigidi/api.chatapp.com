@@ -9,7 +9,7 @@ const userDataService = new UserDataService()
 const responseHelper = new ResponseHelper()
 
 export class UserController {
-    public async signUp(req: Request, res: Response, next: NextFunction) {
+    public async signUp(req: Request, res: Response) {
         try {
 
             const userData = req.body;
@@ -34,7 +34,7 @@ export class UserController {
         }
     }
 
-    public async signIn(req: Request, res: Response, next: NextFunction) {
+    public async signIn(req: Request, res: Response) {
         try {
 
             const userData = req.body;
@@ -60,6 +60,18 @@ export class UserController {
 
             return responseHelper.sendSuccessReponse(res,200,"User signin successfully!",responseData)
 
+        } catch (err) {
+            console.log(err)
+            return responseHelper.sendErrorReponse(res, 500, err.message || "Internal Server Error!", err.errors);
+        }
+    }
+
+    public async listUsers(req:Request,res:Response) {
+        try {
+
+            const users = await userDataService.getUsers();
+            return responseHelper.sendSuccessReponse(res,200,"Users fetched successfully!",users)
+            
         } catch (err) {
             console.log(err)
             return responseHelper.sendErrorReponse(res, 500, err.message || "Internal Server Error!", err.errors);

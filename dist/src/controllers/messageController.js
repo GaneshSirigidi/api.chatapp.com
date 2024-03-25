@@ -23,7 +23,7 @@ class MessageController {
                 let messageData = req.body;
                 messageData.reciever_id = req.params.id;
                 messageData.sender_id = req.user.id;
-                let conversation = yield conversationDataService.getOne(req.user._id, req.params.id);
+                let conversation = yield conversationDataService.getOne(req.user.id, req.params.id);
                 if (!conversation) {
                     let participantsData = {
                         participants: [messageData.sender_id, messageData.reciever_id]
@@ -33,7 +33,24 @@ class MessageController {
                 const message = yield messageDataService.create(messageData);
                 conversation.messages.push(message._id);
                 conversation.save();
-                return responseHelper.sendSuccessReponse(res, 201, 'Message sent successfully');
+                return responseHelper.sendSuccessReponse(res, 201, 'Message sent successfully', message);
+            }
+            catch (err) {
+                console.log(err);
+                return responseHelper.sendErrorReponse(res, 500, err.message || "Internal Server Error!", err.errors);
+            }
+        });
+    }
+    getMessages(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userToChatId = req.params.id;
+                const senderId = req.user.id;
+                const conversation = yield conversationDataService.getOneWithPopulate(senderId, userToChatId);
+                if (!conversation) {
+                    return responseHelper.sendSuccessReponse(res, 200, 'Messages fetched successfully!', []);
+                }
+                return responseHelper.sendSuccessReponse(res, 200, 'Messages fetched successfully!', conversation.messages);
             }
             catch (err) {
                 console.log(err);

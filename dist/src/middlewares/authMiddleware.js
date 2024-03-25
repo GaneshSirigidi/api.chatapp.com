@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthMiddleware = void 0;
-const customError_1 = require("../interfaces/customError");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userDataService_1 = require("../services/userDataService");
 const app_1 = __importDefault(require("../../config/app"));
@@ -26,14 +25,14 @@ class AuthMiddleware {
             try {
                 const accessToken = req.headers.authorization || req.body.authorization;
                 if (!accessToken) {
-                    throw new customError_1.CustomError(401, "Unothorized - No Token Provided", "INVALID_ACCESS");
+                    return responseHelper.sendErrorReponse(res, 401, "Unauthorized - No Token Provided");
                 }
                 // Decode JWT received via Header
                 const userDetails = jsonwebtoken_1.default.decode(accessToken);
                 // Fetch User From DB
                 const user = yield userDataService.userById(userDetails.id);
                 if (!user) {
-                    throw new customError_1.CustomError(401, "Invalid Access Token", "INVALID_ACCESS");
+                    return responseHelper.sendErrorReponse(res, 401, "Unauthorized - Invalid Access Token");
                 }
                 const tokenSecret = app_1.default.jwt.token_secret + user.password;
                 try {

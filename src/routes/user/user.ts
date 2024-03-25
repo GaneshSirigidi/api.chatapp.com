@@ -6,6 +6,7 @@ const userController = new UserController()
 const router: Router = Router();
 
 router.post('/users/signup', userController.signUp.bind(userController))
-router.post('/users/signin',userController.signIn.bind(userController))
+router.post('/users/signin', userController.signIn.bind(userController))
+router.get('/users',userController.listUsers.bind(userController))
 
 export default router;

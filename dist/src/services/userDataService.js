@@ -33,6 +33,11 @@ class UserDataService {
             return yield userSchema_1.UserModel.findById(id);
         });
     }
+    getUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield userSchema_1.UserModel.find({});
+        });
+    }
 }
 exports.UserDataService = UserDataService;
 //# sourceMappingURL=userDataService.js.map
