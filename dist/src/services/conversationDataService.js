@@ -8,31 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserDataService = void 0;
-const userSchema_1 = require("../schemas/userSchema");
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const saltRounds = 12;
-class UserDataService {
-    saveUser(userData) {
+exports.ConversationDataService = void 0;
+const conversationSchema_1 = require("../schemas/conversationSchema");
+class ConversationDataService {
+    getOne(senderId, recieverId) {
         return __awaiter(this, void 0, void 0, function* () {
-            userData.password = yield bcrypt_1.default.hash(userData.password, saltRounds);
-            return yield userSchema_1.UserModel.create(userData);
+            return yield conversationSchema_1.ConversationModel.findOne({ participants: { $all: [senderId, recieverId] } });
         });
     }
-    findOne(email) {
+    create(conversationData) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield userSchema_1.UserModel.findOne({ email: email });
-        });
-    }
-    userById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield userSchema_1.UserModel.findById(id);
+            return yield conversationSchema_1.ConversationModel.create(conversationData);
         });
     }
 }
-exports.UserDataService = UserDataService;
-//# sourceMappingURL=userDataService.js.map
+exports.ConversationDataService = ConversationDataService;
+//# sourceMappingURL=conversationDataService.js.map

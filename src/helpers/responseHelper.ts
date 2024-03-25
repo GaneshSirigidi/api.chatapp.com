@@ -14,7 +14,7 @@ export class ResponseHelper{
         return res.status(status).json(responseBody)
     }
 
-    public sendErrorReponse(res:Response,status:number,message:string="",data:any=[],errors:any={}) {
+    public sendErrorReponse(res:Response,status:number,message:string="",errors:any={},data:any=[]) {
         
         let responseBody = {
             success: false,

@@ -10,8 +10,7 @@ const getUserAuthTokens = function (userData) {
     let user = {
         id: userData._id,
         username: userData.username,
-        fullname: userData.fullname,
-        password: userData.password
+        email: userData.email,
     };
     let tokenSecret = app_1.default.jwt.token_secret + userData.password;
     let refreshTokenSecret = app_1.default.jwt.refresh_token_secret + userData.password;
