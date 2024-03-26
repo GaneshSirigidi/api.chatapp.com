@@ -24,9 +24,9 @@ export class UserController {
 
             userData.profile_pic = userData.gender === 'Male' ? boyProfilePic : girlProfilePic
 
-            await userDataService.saveUser(userData);
+            const responseUserData = await userDataService.saveUser(userData);
 
-            return responseHelper.sendSuccessReponse(res, 201, "User Registered  Successfully!");
+            return responseHelper.sendSuccessReponse(res, 201, "User Registered  Successfully!",responseUserData);
 
         } catch (err) {
             console.log(err)
