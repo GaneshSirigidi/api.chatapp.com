@@ -32,6 +32,7 @@ class UserController {
                 const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${userData.username}`;
                 userData.profile_pic = userData.gender === 'Male' ? boyProfilePic : girlProfilePic;
                 const responseUserData = yield userDataService.saveUser(userData);
+                responseUserData.password = undefined;
                 return responseHelper.sendSuccessReponse(res, 201, "User Registered  Successfully!", responseUserData);
             }
             catch (err) {

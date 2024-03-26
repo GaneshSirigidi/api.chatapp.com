@@ -26,6 +26,8 @@ export class UserController {
 
             const responseUserData = await userDataService.saveUser(userData);
 
+            responseUserData.password = undefined
+            
             return responseHelper.sendSuccessReponse(res, 201, "User Registered  Successfully!",responseUserData);
 
         } catch (err) {
