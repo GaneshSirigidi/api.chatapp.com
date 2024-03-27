@@ -24,8 +24,13 @@ class ConversationDataService {
     }
     getOneWithPopulate(senderId, recieverId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return (yield conversationSchema_1.ConversationModel.findOne({ participants: { $all: [senderId, recieverId] } }))
-                .populate({ path: "messages" });
+            const conversation = yield conversationSchema_1.ConversationModel.findOne({ participants: { $all: [senderId, recieverId] } });
+            if (!conversation) {
+                // If no conversation found, return null or throw an error, depending on your use case
+                return null;
+            }
+            // Populate the messages only if conversation exists
+            return conversation.populate({ path: "messages" });
         });
     }
 }
