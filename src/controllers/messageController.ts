@@ -2,6 +2,7 @@ import { ResponseHelper } from "../helpers/responseHelper";
 import { Response, Request, NextFunction } from "express";
 import { MessageDataService } from "../services/messageDataService";
 import { ConversationDataService } from "../services/conversationDataService";
+import { getReceiverSocketId, io } from "../socket/socket";
 
 const responseHelper = new ResponseHelper();
 const messageDataService = new MessageDataService();
@@ -29,6 +30,12 @@ export class MessageController {
 
             conversation.messages.push(message._id);
             conversation.save();
+
+            const receiverSocketId = getReceiverSocketId(messageData.reciever_id);
+            // console.log("receiverSocketId",receiverSocketId)
+            if (receiverSocketId) {
+                io.to(receiverSocketId).emit("message", message);
+            }
 
             return responseHelper.sendSuccessReponse(res, 201, 'Message sent successfully',message)
 
