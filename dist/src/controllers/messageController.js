@@ -13,6 +13,7 @@ exports.MessageController = void 0;
 const responseHelper_1 = require("../helpers/responseHelper");
 const messageDataService_1 = require("../services/messageDataService");
 const conversationDataService_1 = require("../services/conversationDataService");
+const socket_1 = require("../socket/socket");
 const responseHelper = new responseHelper_1.ResponseHelper();
 const messageDataService = new messageDataService_1.MessageDataService();
 const conversationDataService = new conversationDataService_1.ConversationDataService();
@@ -33,6 +34,11 @@ class MessageController {
                 const message = yield messageDataService.create(messageData);
                 conversation.messages.push(message._id);
                 conversation.save();
+                const receiverSocketId = (0, socket_1.getReceiverSocketId)(messageData.reciever_id);
+                // console.log("receiverSocketId",receiverSocketId)
+                if (receiverSocketId) {
+                    socket_1.io.to(receiverSocketId).emit("message", message);
+                }
                 return responseHelper.sendSuccessReponse(res, 201, 'Message sent successfully', message);
             }
             catch (err) {
